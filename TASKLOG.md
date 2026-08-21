@@ -1,0 +1,173 @@
+# TASKLOG.md - Development Backlog
+
+## Phase 1: Local Development Environment, Database & Conceptual Model
+
+- [ ] **Task 1.1: Configure local environment on Laragon and installation of base packages**
+  * Verify Apache 2.4, PHP 8.5, and MySQL 8.4 are running in Laragon.
+  * Create local MySQL database named `turnify`.
+  * Initialize Laravel 13 project at the local root directory.
+  * Update `.env` setting `DB_CONNECTION=mysql`, `DB_DATABASE=turnify`, `DB_USERNAME=root`, and `DB_PASSWORD=`.
+  * Install the auditing package using `composer require spatie/laravel-activitylog` and publish the migration for the `activity_log` table.
+  * Test database connection by executing `php artisan migrate`.
+
+- [ ] **Task 1.2: Create PHP Backed Enums for status and document types**
+  * Create `app/Enums/TicketStatus.php` with cases: `Pending = 'pending'`, `Calling = 'calling'`, `InProgress = 'in_progress'`, `Completed = 'completed'`, `NoShow = 'no_show'`, `Cancelled = 'cancelled'`.
+  * Create `app/Enums/UserRole.php` with cases: `Administrator = 'administrator'`, `Advisor = 'advisor'`.
+  * Create `app/Enums/DocumentType.php` with cases: `DNI = 'dni'`, `Passport = 'passport'`, `CE = 'ce'`.
+
+- [ ] **Task 1.3: Define database migration schemas**
+  * Update `database/migrations/0001_01_01_000000_create_users_table.php` adding `is_active` (boolean, default: `true`) and the softDeletes().
+  * Create `database/migrations/xxxx_xx_xx_create_categories_table.php` with: `id`, `name` (varchar 100), `prefix` (varchar 10), `is_active` (boolean, default: `true`), `timestamps`.
+  * Create `database/migrations/xxxx_xx_xx_create_modules_table.php` with: `id`, `module_number` (int, unique), `is_active` (boolean, default: `true`), `current_user_id` (foreignId, nullable, constrained `users`), `timestamps`.
+  * Create `database/migrations/xxxx_xx_xx_create_category_module_table.php` (pivot) with: `module_id` (foreignId, cascade), `category_id` (foreignId, cascade).
+  * Create `database/migrations/xxxx_xx_xx_create_tickets_table.php` with: `id`, `ticket_code` (varchar 20), `category_id` (foreignId), `module_id` (foreignId, nullable), `user_id` (foreignId, nullable), `document_type` (varchar 20, default `dni`), `document_number` (varchar 30), `name` (varchar 255), `is_priority` (boolean, default `false`), `status` (varchar 30, default `pending`), `call_count` (int, default 0), `called_at` (timestamp, nullable), `started_at` (timestamp, nullable), `ended_at` (timestamp, nullable), `cancelled_at` (timestamp, nullable), `idempotency_key` (varchar 64, unique, nullable), `timestamps`.
+
+- [ ] **Task 1.4: Configure Eloquent models, relationships & audit traits**
+  * Update `app/Models/User.php` adding `LogsActivity` trait (`spatie/laravel-activitylog`), `SoftDeletes` trait, casting `is_active` to boolean, and defining `hasMany` with `Ticket` and `hasOne` with `Module` (`current_user_id`).
+  * Create `app/Models/Category.php` with `LogsActivity` trait and `belongsToMany` relationship with `Module` via `category_module`.
+  * Create `app/Models/Module.php` with `LogsActivity` trait and `belongsToMany` with `Category`, `belongsTo` with `User` (`current_user_id`), and `hasMany` with `Ticket`.
+  * Create `app/Models/Ticket.php` with `LogsActivity` trait, casting `status` to `TicketStatus::class`, `document_type` to `DocumentType::class`, `is_priority` to boolean, and `belongsTo` relationships with `Category`, `Module`, and `User`.
+
+- [ ] **Task 1.5: Create seed data (Seeders)**
+  * Create `database/seeders/CategorySeeder.php` inserting 5 base categories (`Financiera`, `Legal`, `Migraciones`, `Tributaria`, `General`) with prefixes (`FIN`, `LEG`, `MIG`, `TRI`, `GEN`).
+  * Create `database/seeders/ModuleSeeder.php` generating physical modules 1 through 50 via loop.
+  * Update `database/seeders/DatabaseSeeder.php` to call `CategorySeeder` and `ModuleSeeder`.
+  * Execute `php artisan migrate:fresh --seed` to verify seed data.
+
+---
+
+## Phase 2: Administrative Panel & Operational Management (Filament 5.x)
+
+- [ ] **Task 2.1: Install Filament 5.x & Shield**
+  * Execute `composer require filament/filament:"^5.0"` and install via `php artisan filament:install --panels`.
+  * Execute `composer require bezhansalleh/shield` and install via `php artisan shield:install`.
+  * Verify admin access at `/admin` by creating a superadmin user.
+
+- [ ] **Task 2.2: Create Filament resource: Categories**
+  * Execute `php artisan make:filament-resource Category`.
+  * Configure form schema in `app/Filament/Resources/Categories/Schemas/CategoryForm.php`: `TextInput::make('name')->required()`, `TextInput::make('prefix')->required()->maxLength(10)`, `Toggle::make('is_active')->default(true)`.
+  * Configure table schema in `app/Filament/Resources/Categories/Tables/CategoriesTable.php`: `TextColumn` for name, prefix, and `IconColumn` for `is_active`.
+  * Ensure `app/Filament/Resources/Categories/CategoryResource.php` links `CategoryForm` and `CategoriesTable`.
+
+- [ ] **Task 2.3: Create Filament resource: Modules & Category Matrix**
+  * Execute `php artisan make:filament-resource Module`.
+  * Configure form schema in `app/Filament/Resources/Modules/Schemas/ModuleForm.php`: `TextInput::make('module_number')->numeric()->required()`, `Toggle::make('is_active')->default(true)`, and `Select::make('categories')->relationship('categories', 'name')->multiple()->preload()`.
+  * Configure table schema in `app/Filament/Resources/Modules/Tables/ModulesTable.php`: list module number, active status, assigned categories count, and current logged-in user.
+  * Ensure `app/Filament/Resources/Modules/ModuleResource.php` links `ModuleForm` and `ModulesTable`.
+
+- [ ] **Task 2.4: Create Filament resource: Users & Role Assignment**
+  * Execute `php artisan make:filament-resource User`.
+  * Configure form schema in `app/Filament/Resources/Users/Schemas/UserForm.php`: `name`, `email`, encrypted `password`, and `Select::make('roles')->relationship('roles', 'name')`.
+  * Configure table schema in `app/Filament/Resources/Users/Tables/UsersTable.php`: list users with role and `is_active` status.
+  * Ensure `app/Filament/Resources/Users/UserResource.php` links `UserForm` and `UsersTable`.
+
+- [ ] **Task 2.5: Create Filament resource: Ticket Audit & Cancellation**
+  * Execute `php artisan make:filament-resource Ticket`.
+  * Configure read-only view in `app/Filament/Resources/Tickets/Schemas/TicketForm.php` (infolist) to audit `ticket_code`, `document_number`, `name`, `status`, `called_at`, `started_at`, `ended_at`, `cancelled_at`.
+  * Configure table in `app/Filament/Resources/Tickets/Tables/TicketsTable.php`: add custom `Action::make('cancel')` allowing admins to transition ticket status to `cancelled` and set `cancelled_at = now()`.
+  * Ensure `app/Filament/Resources/Tickets/TicketResource.php` links components properly.
+
+---
+
+## Phase 3: Kiosk Self-Service Module & Issuance Logic
+
+- [ ] **Task 3.1: Create Livewire component KioskMain**
+  * Execute `php artisan make:livewire KioskMain`.
+  * Configure `app/Livewire/KioskMain.php` defining public properties: `$document_type`, `$document_number`, `$name`, `$category_id`, `$is_priority`, `$idempotency_key`, and flow step `$step = 1`.
+  * Create touch-first view in `resources/views/livewire/kiosk-main.blade.php` using Tailwind CSS v4.3 (large buttons and touch numpad).
+
+- [ ] **Task 3.2: Implement Identity API integration**
+  * Create service class `app/Services/IdentityLookupService.php`.
+  * Implement `lookup(string $documentType, string $documentNumber): ?string` querying the external identity API via `Illuminate\Support\Facades\Http`.
+  * Call lookup inside `app/Livewire/KioskMain.php` to auto-populate `$name` upon document input completion.
+
+- [ ] **Task 3.3: Implement code generation & idempotency service**
+  * Create service class `app/Services/TicketIssuanceService.php`.
+  * Implement `generateCode(Category $category, bool $isPriority): string` generating formatted codes (`PREFIX-001` or `P-PREFIX-001`).
+  * Implement `issueTicket(array $data): Ticket` wrapped in a `try-catch` block validating `idempotency_key` unique constraints.
+
+- [ ] **Task 3.4: Build confirmation view & thermal print output**
+  * Design confirmation overlay in `resources/views/livewire/kiosk-main.blade.php` displaying the generated ticket code for 5 seconds before resetting.
+  * Integrate JavaScript `window.print()` / Web Print API triggering the 80mm thermal ticket layout.
+
+---
+
+## Phase 4: Assignment Engine, Concurrency & Advisor Panel
+
+- [ ] **Task 4.1: Ticket assignment service with pessimistic locking**
+  * Create service class `app/Services/TicketAssignmentService.php`.
+  * Implement `callNextTicket(Module $module, User $user): ?Ticket`:
+    * Open transaction via `DB::transaction()`.
+    * Fetch permitted category IDs for module.
+    * Query `Ticket` filtering by `status = pending` and `category_id`, ordering by `is_priority DESC` and `created_at ASC`.
+    * Apply `->lockForUpdate()` on Eloquent query to prevent MySQL 8.4 race conditions.
+    * Update ticket status to `calling`, assign `module_id`, `user_id`, set `called_at = now()` and `call_count = 1`.
+
+- [ ] **Task 4.2: Advisor Panel Livewire component**
+  * Execute `php artisan make:livewire AdvisorPanel`.
+  * Configure `app/Livewire/AdvisorPanel.php` handling actions: `callNext()`, `recall()`, `startAttention()`, `markNoShow()`, `completeAttention()`.
+  * Create view `resources/views/livewire/advisor-panel.blade.php` including toolbar, ticket summary, and active module indicator.
+
+- [ ] **Task 4.3: Implement 30-minute timer & UI delay lock**
+  * Embed Alpine.js in `resources/views/livewire/advisor-panel.blade.php` managing a 30-minute countdown upon reaching `in_progress` state.
+  * Apply dynamic Tailwind CSS v4.3 classes: Green (30:00-10:00), Yellow (09:59-03:00), Red (02:59-00:00).
+  * Implement Alpine `x-data` state disabling the "Mark No-Show" (`no_show`) button for 20 seconds following a call or recall action.
+
+---
+
+## Phase 5: Real-Time WebSockets (Laravel Reverb) & Public Display (TV)
+
+- [ ] **Task 5.1: Install and configure Laravel Reverb**
+  * Execute `php artisan install:broadcasting` and select Laravel Reverb.
+  * Verify `.env` variables: `BROADCAST_CONNECTION=reverb`, `REVERB_APP_ID`, `REVERB_APP_KEY`, `REVERB_APP_SECRET`, `REVERB_HOST="127.0.0.1"`, `REVERB_PORT=6001`.
+  * Test WebSocket server using `php artisan reverb:start --port=6001`.
+
+- [ ] **Task 5.2: Create TicketCalledEvent**
+  * Create `app/Events/TicketCalledEvent.php` implementing `ShouldBroadcastNow`.
+  * Define public properties: `$ticketId`, `$ticketCode`, `$moduleNumber`, `$categoryName`, `$isRecall`.
+  * Configure `broadcastOn()` pointing to `new Channel('displays-channel')`.
+  * Dispatch event inside `callNext()` and `recall()` in `AdvisorPanel`.
+
+- [ ] **Task 5.3: Create DisplayTv component & view**
+  * Execute `php artisan make:livewire DisplayTv`.
+  * Create view `resources/views/livewire/display-tv.blade.php` using Tailwind v4.3 CSS Grid split into Main Area (70%) and Side Grid (30%).
+  * Configure Laravel Echo listening on `displays-channel` for `TicketCalledEvent`.
+
+- [ ] **Task 5.4: JavaScript queue & Text-to-Speech (TTS) integration**
+  * Create script `resources/js/display-queue.js`.
+  * Implement JavaScript FIFO queue receiving WebSocket broadcasts.
+  * Display incoming ticket in Main Area for 20 seconds, trigger `window.speechSynthesis` (`"Turno [Code], acérquese al Módulo [Number]"`), then shift ticket into Side Grid.
+
+---
+
+## Phase 6: Analytics Dashboard, Reports & Data Export
+
+- [ ] **Task 6.1: Install export dependencies**
+  * Execute `composer require maatwebsite/excel`.
+  * Execute `composer require barryvdh/laravel-dompdf`.
+
+- [ ] **Task 6.2: Build Filament 5.x stats widgets**
+  * Create widget `app/Filament/Widgets/StatsOverview.php` rendering KPIs: Total Tickets, Completed Sessions, Avg Wait Time (`called_at - created_at`), Avg Session Duration (`ended_at - started_at`).
+  * Create widget `app/Filament/Widgets/TicketsPerCategoryChart.php` rendering ticket distribution per category.
+
+- [ ] **Task 6.3: Implement data export class**
+  * Create `app/Exports/TicketsExport.php` implementing `FromQuery`, `WithHeadings`, `WithMapping`.
+  * Map columns: Ticket Code, Category, Module, Advisor, Document, Status, Issuance Time, Call Time, Start Time, End Time, Total Session Duration.
+
+- [ ] **Task 6.4: Reports page in Filament admin**
+  * Create custom page `app/Filament/Pages/ReportsPage.php`.
+  * Build form filters for date range, category selection, and module selection.
+  * Add action buttons to download filtered reports in `.xlsx` and `.pdf` formats.
+
+---
+
+## Phase 7: Load Testing, Concurrency Simulation & Local Deployment
+
+- [ ] **Task 7.1: Concurrency simulation command**
+  * Create Artisan command `app/Console/Commands/SimulateConcurrenceCommand.php`.
+  * Simulate 50 concurrent ticket call requests verifying that `lockForUpdate()` prevents double assignments.
+
+- [ ] **Task 7.2: Laragon server & Laravel optimization**
+  * Tune MySQL 8.4 `my.ini` setting `max_connections = 200` and optimizing `innodb_buffer_pool_size`.
+  * Run Laravel 13 optimization commands: `php artisan config:cache`, `php artisan route:cache`, `php artisan view:cache`.
+  * Test LAN accessibility via local domain (`.test`) or static IP (`http://192.168.1.100`) from multiple devices connected to the local network.

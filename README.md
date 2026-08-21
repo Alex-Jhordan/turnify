@@ -1,58 +1,129 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# On-Site Event Attendance & Queue Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A high-performance, real-time queue and physical consultation management system built for high-concurrency event environments. The platform operates fully offline over an isolated Local Area Network (LAN), handling kiosk ticket issuance, advisor station calls, audio-visual public screen announcements, and real-time operational analytics.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Key Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* **Touchscreen Kiosk (`kiosk`):** Rapid identity lookup, category selection, priority queuing, idempotency protection, and 80mm thermal ticket printing.
+* **Advisor Management Station (`advisor`):** Single-click ticket calling with pessimistic database locking, ticket recalls, no-show safety delays, and a 30-minute consultation countdown timer.
+* **Public TV Display Board (`display`):** Real-time WebSockets broadcast using Laravel Reverb, client-side Web Speech API (Text-to-Speech) vocal readout, and dynamic split-screen queue layouts.
+* **Administrative Operations (`admin`):** Full resource management with Filament 5.x, dynamic category-to-module matrix rebalancing, soft deletes, and event audit logs.
+* **Analytics & Exports:** Real-time KPI dashboards, category distribution charts, and filterable data exports in Excel (`.xlsx`) and PDF formats.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Tech Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* **Backend Framework:** Laravel 13
+* **PHP Version:** PHP 8.5
+* **Database Engine:** MySQL 8.4 (InnoDB)
+* **Admin Panel:** Filament 5.x (using `Schemas/` and `Tables/` structure)
+* **Frontend Reactive Components:** Livewire v4.x & Alpine.js
+* **Styling Framework:** Tailwind CSS v4.3
+* **WebSocket Engine:** Laravel Reverb (Port 6001)
+* **Local Web Server:** Laragon (Apache 2.4)
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Local Environment Installation
 
-## Agentic Development
+### 1. Prerequisites
+Ensure Laragon is running with Apache 2.4, PHP 8.5, and MySQL 8.4 enabled.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### 2. Database Setup
+Create a local MySQL database named `turnify`.
 
-```bash
-composer require laravel/boost --dev
+### 3. Repository Setup
+Clone the repository and install dependencies:
 
-php artisan boost:install
+```
+# Clone the repository
+git clone https://github.com/your-username/turnify.git
+cd turnify
+
+# Install PHP dependencies
+composer install
+
+# Install Frontend dependencies & build assets
+pnpm install
+pnpm run build
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 4. Environment Configuration
+Copy the `.env.example` file and configure database and Reverb variables:
 
-## Contributing
+```
+APP_NAME=Turnify
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://192.168.1.100:8000
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+LOG_CHANNEL=stack
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
 
-## Code of Conduct
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=turnify
+DB_USERNAME=root
+DB_PASSWORD=
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+BROADCAST_DRIVER=reverb
+CACHE_DRIVER=file
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=database
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
 
-## Security Vulnerabilities
+REVERB_APP_ID=turnify-app
+REVERB_APP_KEY=turnify-key
+REVERB_APP_SECRET=turnify-secret
+REVERB_HOST="192.168.1.100"
+REVERB_PORT=8080
+REVERB_SCHEME=http
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+VITE_REVERB_APP_KEY="${REVERB_APP_KEY}"
+VITE_REVERB_HOST="${REVERB_HOST}"
+VITE_REVERB_PORT="${REVERB_PORT}"
+VITE_REVERB_SCHEME="${REVERB_SCHEME}"
+```
 
-## License
+### 5. Migration & Seed Execution
+Run migrations and populate the initial database structure:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+# Generate Application Key
+php artisan key:generate
+
+# Run database migrations and populate default seeders
+php artisan migrate:fresh --seed
+
+# (Optional) Create administrative user for Filament Panel
+php artisan make:filament-user
+```
+
+### 6. Start Real-time Broadcasting
+Launch the local Laravel Reverb server:
+
+```
+# Start Laravel Reverb WebSocket Server for real-time TV displays
+php artisan reverb:start --host=0.0.0.0 --port=8080
+```
+
+---
+
+## Project Documentation Structure
+
+All system architecture and technical requirements specifications are documented under `.github/docs/`:
+
+* **`01-vision-and-business-rules.md`**: Project scope, core business rules, and user roles.
+* **`02-hardware-and-network-architecture.md`**: Topology, local network isolation, and hardware specs.
+* **`03-technical-architecture-and-data-model.md`**: Database schema, Eloquent relationships, and WebSocket flow.
+* **`04-software-requirements-specification.md`**: Detailed functional and non-functional requirements (SRS).
+* **`05-ui-ux-design-and-wireframes.md`**: Interface guidelines, color coding rules, and print layouts.
+* **`TASKLOG.md`**: Step-by-step development roadmap and task backlog.
+* **`AGENTS.md`**: Coding guidelines for AI agents and development assistants.
