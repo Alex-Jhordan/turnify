@@ -28,7 +28,7 @@
   * Create `app/Models/Module.php` with `LogsActivity` trait and `belongsToMany` with `Category`, `belongsTo` with `User` (`current_user_id`), and `hasMany` with `Ticket`.
   * Create `app/Models/Ticket.php` with `LogsActivity` trait, casting `status` to `TicketStatus::class`, `document_type` to `DocumentType::class`, `is_priority` to boolean, and `belongsTo` relationships with `Category`, `Module`, and `User`.
 
-- [ ] **Task 1.5: Create seed data (Seeders)**
+- [X] **Task 1.5: Create seed data (Seeders)**
   * Create `database/seeders/CategorySeeder.php` inserting 5 base categories (`Financiera`, `Legal`, `Migraciones`, `Tributaria`, `General`) with prefixes (`FIN`, `LEG`, `MIG`, `TRI`, `GEN`).
   * Create `database/seeders/ModuleSeeder.php` generating physical modules 1 through 50 via loop.
   * Update `database/seeders/DatabaseSeeder.php` to call `CategorySeeder` and `ModuleSeeder`.
