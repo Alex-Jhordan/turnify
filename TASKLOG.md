@@ -2,7 +2,7 @@
 
 ## Phase 1: Local Development Environment, Database & Conceptual Model
 
-- [ ] **Task 1.1: Configure local environment on Laragon and installation of base packages**
+- [X] **Task 1.1: Configure local environment on Laragon and installation of base packages**
   * Verify Apache 2.4, PHP 8.5, and MySQL 8.4 are running in Laragon.
   * Create local MySQL database named `turnify`.
   * Initialize Laravel 13 project at the local root directory.
