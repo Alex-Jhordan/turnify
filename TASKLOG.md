@@ -15,7 +15,7 @@
   * Create `app/Enums/UserRole.php` with cases: `Administrator = 'administrator'`, `Advisor = 'advisor'`.
   * Create `app/Enums/DocumentType.php` with cases: `DNI = 'dni'`, `Passport = 'passport'`, `CE = 'ce'`.
 
-- [ ] **Task 1.3: Define database migration schemas**
+- [X] **Task 1.3: Define database migration schemas**
   * Update `database/migrations/0001_01_01_000000_create_users_table.php` adding `is_active` (boolean, default: `true`) and the softDeletes().
   * Create `database/migrations/xxxx_xx_xx_create_categories_table.php` with: `id`, `name` (varchar 100), `prefix` (varchar 10), `is_active` (boolean, default: `true`), `timestamps`.
   * Create `database/migrations/xxxx_xx_xx_create_modules_table.php` with: `id`, `module_number` (int, unique), `is_active` (boolean, default: `true`), `current_user_id` (foreignId, nullable, constrained `users`), `timestamps`.
