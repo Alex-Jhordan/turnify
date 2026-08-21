@@ -10,7 +10,7 @@
   * Install the auditing package using `composer require spatie/laravel-activitylog` and publish the migration for the `activity_log` table.
   * Test database connection by executing `php artisan migrate`.
 
-- [ ] **Task 1.2: Create PHP Backed Enums for status and document types**
+- [X] **Task 1.2: Create PHP Backed Enums for status and document types**
   * Create `app/Enums/TicketStatus.php` with cases: `Pending = 'pending'`, `Calling = 'calling'`, `InProgress = 'in_progress'`, `Completed = 'completed'`, `NoShow = 'no_show'`, `Cancelled = 'cancelled'`.
   * Create `app/Enums/UserRole.php` with cases: `Administrator = 'administrator'`, `Advisor = 'advisor'`.
   * Create `app/Enums/DocumentType.php` with cases: `DNI = 'dni'`, `Passport = 'passport'`, `CE = 'ce'`.
