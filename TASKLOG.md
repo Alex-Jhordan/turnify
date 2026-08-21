@@ -19,10 +19,10 @@
   * Update `database/migrations/0001_01_01_000000_create_users_table.php` adding `is_active` (boolean, default: `true`) and the softDeletes().
   * Create `database/migrations/xxxx_xx_xx_create_categories_table.php` with: `id`, `name` (varchar 100), `prefix` (varchar 10), `is_active` (boolean, default: `true`), `timestamps`.
   * Create `database/migrations/xxxx_xx_xx_create_modules_table.php` with: `id`, `module_number` (int, unique), `is_active` (boolean, default: `true`), `current_user_id` (foreignId, nullable, constrained `users`), `timestamps`.
-  * Create `database/migrations/xxxx_xx_xx_create_category_module_table.php` (pivot) with: `module_id` (foreignId, cascade), `category_id` (foreignId, cascade).
+  * Create `database/migrations/xxxx_xx_xx_create_category_module_table.php` (pivot) with: `module_id` (foreignId), `category_id` (foreignId).
   * Create `database/migrations/xxxx_xx_xx_create_tickets_table.php` with: `id`, `ticket_code` (varchar 20), `category_id` (foreignId), `module_id` (foreignId, nullable), `user_id` (foreignId, nullable), `document_type` (varchar 20, default `dni`), `document_number` (varchar 30), `name` (varchar 255), `is_priority` (boolean, default `false`), `status` (varchar 30, default `pending`), `call_count` (int, default 0), `called_at` (timestamp, nullable), `started_at` (timestamp, nullable), `ended_at` (timestamp, nullable), `cancelled_at` (timestamp, nullable), `idempotency_key` (varchar 64, unique, nullable), `timestamps`.
 
-- [ ] **Task 1.4: Configure Eloquent models, relationships & audit traits**
+- [X] **Task 1.4: Configure Eloquent models, relationships & audit traits**
   * Update `app/Models/User.php` adding `LogsActivity` trait (`spatie/laravel-activitylog`), `SoftDeletes` trait, casting `is_active` to boolean, and defining `hasMany` with `Ticket` and `hasOne` with `Module` (`current_user_id`).
   * Create `app/Models/Category.php` with `LogsActivity` trait and `belongsToMany` relationship with `Module` via `category_module`.
   * Create `app/Models/Module.php` with `LogsActivity` trait and `belongsToMany` with `Category`, `belongsTo` with `User` (`current_user_id`), and `hasMany` with `Ticket`.
