@@ -27,7 +27,7 @@ class TicketsTable
                     ]),
                 TextColumn::make('name')
                     ->label('Attendee')
-                    ->description(fn ($record) => "{$record->document_type->value}: {$record->document_number}")
+                    ->description(fn ($record) => "{$record->document_type->getLabel()}: {$record->document_number}")
                     ->searchable(['name', 'document_type', 'document_number']),
                 TextColumn::make('status')
                     ->badge(),
