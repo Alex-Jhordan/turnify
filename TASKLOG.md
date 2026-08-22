@@ -72,9 +72,10 @@
 
 ## Phase 3: Kiosk Self-Service Module & Issuance Logic
 
-- [ ] **Task 3.1: Create Livewire component KioskMain**
+- [X] **Task 3.1: Create Livewire component KioskMain**
   * Execute `php artisan make:livewire KioskMain`.
   * Configure `app/Livewire/KioskMain.php` defining public properties: `$document_type`, `$document_number`, `$name`, `$category_id`, `$is_priority`, `$idempotency_key`, and flow step `$step = 1`.
+  * Update `App\Enums\DocumentType` to implement `Filament\Support\Contracts\HasLabel` and add the `getLabel()` method for human-readable labels.
   * Create touch-first view in `resources/views/livewire/kiosk-main.blade.php` using Tailwind CSS v4.3 (large buttons and touch numpad).
 
 - [ ] **Task 3.2: Implement Identity API integration**
