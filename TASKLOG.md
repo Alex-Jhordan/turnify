@@ -61,9 +61,10 @@
   * Configure table schema in `app/Filament/Resources/Users/UserResource.php`: list users with email, role and `is_active` ToggleColumn.
   * Ensure `app/Filament/Resources/Users/UserResource.php` implement `form()` and `table()`.
 
-- [ ] **Task 2.5: Create Filament resource: Ticket Audit & Cancellation**
-  * Execute `php artisan make:filament-resource Ticket`.
-  * Configure read-only view in `app/Filament/Resources/Tickets/Schemas/TicketForm.php` (infolist) to audit `ticket_code`, `document_number`, `name`, `status`, `called_at`, `started_at`, `ended_at`, `cancelled_at`.
+- [X] **Task 2.5: Create Filament resource: Ticket Audit & Cancellation**
+  * Execute `php artisan make:filament-resource Ticket --generate --view`.
+  * Configure read-only view in `app/Filament/Resources/Tickets/Pages/ViewTicket.php` (infolist) to audit `ticket_code`, `category`, `document_type`, `document_number`, `name`, `status`, `is_priority`, `module`, `user`, `call_count`, `called_at`, `started_at`, `ended_at`, `cancelled_at`, `created_at` and `updated_at`.
+  * Delete `CreateTicket.php` and `EditTicket.php` page files, and disable their respective routes in `app/Filament/Resources/Tickets/TicketResource.php`
   * Configure table in `app/Filament/Resources/Tickets/Tables/TicketsTable.php`: add custom `Action::make('cancel')` allowing admins to transition ticket status to `cancelled` and set `cancelled_at = now()`.
   * Ensure `app/Filament/Resources/Tickets/TicketResource.php` links components properly.
 
