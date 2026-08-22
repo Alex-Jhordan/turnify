@@ -49,10 +49,10 @@
   * Configure table schema in `app/Filament/Resources/Categories/Tables/CategoriesTable.php`: `TextColumn` for name, prefix, and `IconColumn` for `is_active`.
   * Ensure `app/Filament/Resources/Categories/CategoryResource.php` links `CategoryForm` and `CategoriesTable`.
 
-- [ ] **Task 2.3: Create Filament resource: Modules & Category Matrix**
+- [X] **Task 2.3: Create Filament resource: Modules & Category Matrix**
   * Execute `php artisan make:filament-resource Module`.
   * Configure form schema in `app/Filament/Resources/Modules/Schemas/ModuleForm.php`: `TextInput::make('module_number')->numeric()->required()`, `Toggle::make('is_active')->default(true)`, and `Select::make('categories')->relationship('categories', 'name')->multiple()->preload()`.
-  * Configure table schema in `app/Filament/Resources/Modules/Tables/ModulesTable.php`: list module number, active status, assigned categories count, and current logged-in user.
+  * Configure table schema in `app/Filament/Resources/Modules/Tables/ModulesTable.php`: list module number, active status, assigned categories, and current logged-in user.
   * Ensure `app/Filament/Resources/Modules/ModuleResource.php` links `ModuleForm` and `ModulesTable`.
 
 - [ ] **Task 2.4: Create Filament resource: Users & Role Assignment**
