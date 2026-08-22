@@ -96,7 +96,7 @@
 
 ## Phase 4: Assignment Engine, Concurrency & Advisor Panel
 
-- [ ] **Task 4.1: Ticket assignment service with pessimistic locking**
+- [X] **Task 4.1: Ticket assignment service with pessimistic locking**
   * Create service class `app/Services/TicketAssignmentService.php`.
   * Implement `callNextTicket(Module $module, User $user): ?Ticket`:
     * Open transaction via `DB::transaction()`.
