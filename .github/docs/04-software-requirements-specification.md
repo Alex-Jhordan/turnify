@@ -20,7 +20,7 @@ The system must manage the end-to-end physical consultation lifecycle during the
 * **`FR-02` Identity API Integration:** Perform a synchronous query to an external identity API upon document entry to auto-populate full name (`name`). If the API fails or the document is not found, fall back gracefully to manual input.
 * **`FR-03` Category Selection & Priority Flag:** Display active categories exclusively (`is_active = true`) and allow toggling a preferential status checkbox (`is_priority`) before confirming.
 * **`FR-04` Kiosk Idempotency Enforcement:** Generate a unique `idempotency_key` per kiosk session to prevent duplicate ticket records caused by double-tapping the touch screen.
-* **`FR-05` Ticket Output & Silent Printing:** Display the generated ticket code (e.g., `FIN-001` or `P-FIN-001` for priority) on screen upon record creation and trigger local thermal printing via browser directives.
+* **`FR-05` Ticket Output & Silent Printing:** Display the generated ticket code (e.g., `FIN-00001` or `P-FIN-00001` for priority) on screen upon record creation and trigger local thermal printing via browser directives.
 
 ### 2.2 Module 2: Consultation & Advisor Panel (`advisor`)
 

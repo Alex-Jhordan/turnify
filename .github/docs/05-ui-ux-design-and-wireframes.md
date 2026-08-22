@@ -117,7 +117,7 @@ Doc: DNI ***45678
 
                     TURNO DE ATENCIÓN
 
-                         FIN-001
+                         FIN-00001
 
 
 ---------------------------------------------------------
@@ -131,7 +131,7 @@ Tipo: ATENCIÓN ESTÁNDAR
 =========================================================
 ```
 
-* **Preferential Variant:** If `is_priority = true`, the ticket code prefixes a `P-` (e.g., `P-FIN-001`) and includes a bold highlighted banner reading: `*** ATENCIÓN PREFERENCIAL ***`.
+* **Preferential Variant:** If `is_priority = true`, the ticket code prefixes a `P-` (e.g., `P-FIN-00001`) and includes a bold highlighted banner reading: `*** ATENCIÓN PREFERENCIAL ***`.
 
 ---
 
@@ -139,28 +139,28 @@ Tipo: ATENCIÓN ESTÁNDAR
 The responsive grid layout for Full HD resolution (1920x1080) follows this visual structure:
 
 ```
-+-------------------------------------------------+-----------------------+
-|                                                 |    ÚLTIMOS LLAMADOS   |
-|               LOGOTIPO DEL EVENTO               | +-------------------+ |
-|                                                 | | FIN-002  ->  MOD 02 | |
-+-------------------------------------------------+ +-------------------+ |
-|                                                 |                       |
-|                   TURNO ACTUAL                  | +-------------------+ |
-|                                                 | | LEG-005  ->  MOD 12 | |
-|                     FIN-001                     | +-------------------+ |
-|                                                 |                       |
-|                  PASE AL MÓDULO                 | +-------------------+ |
-|                                                 | | P-FIN-003 -> MOD 01 | |
-|                        05                       | +-------------------+ |
-|                                                 |                       |
-|                                                 | +-------------------+ |
-|                                                 | | FIN-004  ->  MOD 08 | |
-| Categoría: Financiera                           | +-------------------+ |
-|                                                 |                       |
-| [🔊] Reproduciendo aviso de voz...               | +-------------------+ |
-|                                                 | | MIG-001  ->  MOD 15 | |
-|                                                 | +-------------------+ |
-+-------------------------------------------------+-----------------------+
++-------------------------------------------------+---------------------------+
+|                                                 |      ÚLTIMOS LLAMADOS     |
+|               LOGOTIPO DEL EVENTO               | +-----------------------+ |
+|                                                 | | FIN-00002  ->  MOD 02 | |
++-------------------------------------------------+ +-----------------------+ |
+|                                                 |                           |
+|                   TURNO ACTUAL                  | +-----------------------+ |
+|                                                 | | LEG-00005  ->  MOD 12 | |
+|                     FIN-00001                   | +-----------------------+ |
+|                                                 |                           |
+|                  PASE AL MÓDULO                 | +-----------------------+ |
+|                                                 | | P-FIN-00003 -> MOD 01 | |
+|                        05                       | +-----------------------+ |
+|                                                 |                           |
+|                                                 | +-----------------------+ |
+|                                                 | | FIN-00004  ->  MOD 08 | |
+| Categoría: Financiera                           | +-----------------------+ |
+|                                                 |                           |
+| [🔊] Reproduciendo aviso de voz...              | +-----------------------+ |
+|                                                 | | MIG-00001  ->  MOD 15 | |
+|                                                 | +-----------------------+ |
++-------------------------------------------------+---------------------------+
 ```
 
 ---

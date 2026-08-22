@@ -24,7 +24,7 @@ The Queue Management System (QMS) aims to structure attendee demand, eliminate p
 
 ### 2.1 Centralized Virtual Queue Model by Category
 To prevent complex manual rebalancing between physical modules, tickets are **not assigned** to a specific module upon creation.
-* **Ticket Emission:** Upon requesting a ticket at a kiosk, the attendee selects a single category of interest. The system generates a unique code (e.g., `FIN-001`) and saves the ticket with `status = pending`.
+* **Ticket Emission:** Upon requesting a ticket at a kiosk, the attendee selects a single category of interest. The system generates a unique code (e.g., `FIN-00001`) and saves the ticket with `status = pending`.
 * **Dynamic Assignment:** Modules are configured to service one or more categories. When an advisor clicks "Call Next", the system evaluates the global pending queue for the module's enabled categories and assigns the matching ticket.
 * **Module Flexibility:** If a module changes its permitted categories during runtime, it immediately pulls tickets from the updated categories on the next call without requiring manual record transfers.
 

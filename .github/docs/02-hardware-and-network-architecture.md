@@ -54,7 +54,7 @@ To prevent operating system print dialog popups during high-volume ticket issuan
 * **Paper Format:** Standard 80mm thermal paper roll.
 * **Printed Ticket Layout:**
   * Event Name / Logo.
-  * Ticket Code in large prominent font (e.g., `FIN-001` or `P-FIN-001` for priority tickets).
+  * Ticket Code in large prominent font (e.g., `FIN-00001` or `P-FIN-00001` for priority tickets).
   * Selected Category Name.
   * Exact timestamp (`created_at`) and tolerance warning note.
 
