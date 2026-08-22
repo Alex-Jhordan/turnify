@@ -43,7 +43,7 @@
   * Execute `composer require bezhansalleh/shield` and install via `php artisan shield:install`.
   * Verify admin access at `/admin` by creating a superadmin user.
 
-- [ ] **Task 2.2: Create Filament resource: Categories**
+- [X] **Task 2.2: Create Filament resource: Categories**
   * Execute `php artisan make:filament-resource Category`.
   * Configure form schema in `app/Filament/Resources/Categories/Schemas/CategoryForm.php`: `TextInput::make('name')->required()`, `TextInput::make('prefix')->required()->maxLength(10)`, `Toggle::make('is_active')->default(true)`.
   * Configure table schema in `app/Filament/Resources/Categories/Tables/CategoriesTable.php`: `TextColumn` for name, prefix, and `IconColumn` for `is_active`.
