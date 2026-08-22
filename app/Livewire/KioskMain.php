@@ -29,6 +29,8 @@ class KioskMain extends Component
 
     public int $step = 1;
 
+    public ?array $issuedTicket = null;
+
     public function mount(): void
     {
         $this->idempotency_key = (string) str()->uuid();
@@ -118,7 +120,45 @@ class KioskMain extends Component
             'idempotency_key' => $this->idempotency_key,
         ]);
 
-        $this->js("alert('Ticket generated: {$ticket->code}');");
+        $ticket->load('category');
+        $docLabel = $ticket->document_type->getLabel();
+
+        $maskedDocNumber = strlen($ticket->document_number) > 5 
+            ? str_repeat('*', strlen($ticket->document_number) - 5) . substr($ticket->document_number, -5)
+            : $ticket->document_number;
+
+        $this->issuedTicket = [
+            'code' => $ticket->code,
+            'category' => $ticket->category->name,
+            'name' => $ticket->name,
+            'doc_formatted' => "{$docLabel} {$maskedDocNumber}",
+            'service_type' => $ticket->is_priority
+                ? 'PRIORITY ATTENTION'
+                : 'STANDARD ATTENTION',
+            'date' => $ticket->created_at->format('d/m/Y'),
+            'time' => $ticket->created_at->format('h:i A'),
+        ];
+
+        $this->dispatch('set-print-title', title: "turnify_ticket_{$ticket->code}");
+        $this->dispatch('ticket-issued');
+    }
+
+    public function resetKiosk(): void
+    {
+        $this->reset([
+            'document_type',
+            'document_number',
+            'name',
+            'name_found',
+            'is_searching',
+            'category_id',
+            'is_priority',
+            'step',
+            'issuedTicket',
+        ]);
+
+        $this->idempotency_key = (string) str()->uuid();
+        $this->dispatch('set-print-title', title: "Turnify - Kiosk");
     }
 
     public function render(): View

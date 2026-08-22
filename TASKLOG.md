@@ -88,7 +88,7 @@
   * Implement `generateCode(Category $category, bool $isPriority): string` generating formatted codes (`PREFIX-00001` or `P-PREFIX-00001`).
   * Implement `issueTicket(array $data): Ticket` wrapped in a `try-catch` block validating `idempotency_key` unique constraints.
 
-- [ ] **Task 3.4: Build confirmation view & thermal print output**
+- [X] **Task 3.4: Build confirmation view & thermal print output**
   * Design confirmation overlay in `resources/views/livewire/kiosk-main.blade.php` displaying the generated ticket code for 5 seconds before resetting.
   * Integrate JavaScript `window.print()` / Web Print API triggering the 80mm thermal ticket layout.
 
