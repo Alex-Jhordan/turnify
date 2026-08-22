@@ -73,7 +73,7 @@ Central core table tracking the lifecycle of each issued ticket.
 | Field | Type | Constraints | Description |
 | :--- | :--- | :--- | :--- |
 | `id` | bigint | PRIMARY KEY, AUTO_INCREMENT | Ticket identifier. |
-| `ticket_code` | varchar(20) | NOT NULL | Public printed code (e.g., `FIN-00001`, `P-FIN-00002`). |
+| `code` | varchar(20) | NOT NULL | Public printed code (e.g., `FIN-00001`, `P-FIN-00002`). |
 | `category_id` | bigint | FOREIGN KEY (`categories.id`) | Requested category ID. |
 | `module_id` | bigint | FOREIGN KEY (`modules.id`), NULLABLE | Assigned module ID when called. |
 | `user_id` | bigint | FOREIGN KEY (`users.id`), NULLABLE | Assigned advisor ID. |
@@ -212,7 +212,7 @@ Event broadcasting between the core server and public TV screens relies on Larav
 {
   "event": "TicketCalledEvent",
   "data": {
-    "ticket_code": "FIN-00001",
+    "code": "FIN-00001",
     "module_number": 5,
     "category_name": "Financiera",
     "called_at": "2026-08-20 10:15:30"

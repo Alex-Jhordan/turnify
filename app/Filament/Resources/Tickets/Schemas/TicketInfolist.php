@@ -26,8 +26,7 @@ class TicketInfolist
                                     ->description('General details of the ticket and classification')
                                     ->columns(2)
                                     ->schema([
-                                        TextEntry::make('ticket_code')
-                                            ->label('Code')
+                                        TextEntry::make('code')
                                             ->weight('bold'),
 
                                         TextEntry::make('category.name')

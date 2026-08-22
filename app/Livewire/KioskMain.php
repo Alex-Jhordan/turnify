@@ -118,7 +118,7 @@ class KioskMain extends Component
             'idempotency_key' => $this->idempotency_key,
         ]);
 
-        $this->js("alert('Ticket generated: {$ticket->ticket_code}');");
+        $this->js("alert('Ticket generated: {$ticket->code}');");
     }
 
     public function render(): View

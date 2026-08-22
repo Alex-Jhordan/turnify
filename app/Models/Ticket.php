@@ -12,7 +12,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
 
 #[Fillable([
-    'ticket_code',
+    'code',
     'category_id',
     'module_id',
     'user_id',

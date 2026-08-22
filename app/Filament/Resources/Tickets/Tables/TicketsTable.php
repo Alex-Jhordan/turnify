@@ -18,11 +18,11 @@ class TicketsTable
     {
         return $table
             ->columns([
-                TextColumn::make('ticket_code')
+                TextColumn::make('code')
                     ->label('Ticket')
                     ->description(fn ($record) => $record->category?->name)
                     ->searchable([
-                        'ticket_code',
+                        'code',
                         'category.name',
                     ]),
                 TextColumn::make('name')

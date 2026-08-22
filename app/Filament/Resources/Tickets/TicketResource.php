@@ -17,7 +17,7 @@ class TicketResource extends Resource
 {
     protected static ?string $model = Ticket::class;
     protected static string|BackedEnum|null $navigationIcon = Heroicon::DocumentText;
-    protected static ?string $recordTitleAttribute = 'ticket_code';
+    protected static ?string $recordTitleAttribute = 'code';
 
     public static function infolist(Schema $schema): Schema
     {
