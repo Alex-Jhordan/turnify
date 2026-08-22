@@ -78,7 +78,7 @@
   * Update `App\Enums\DocumentType` to implement `Filament\Support\Contracts\HasLabel` and add the `getLabel()` method for human-readable labels.
   * Create touch-first view in `resources/views/livewire/kiosk-main.blade.php` using Tailwind CSS v4.3 (large buttons and touch numpad).
 
-- [ ] **Task 3.2: Implement Identity API integration**
+- [X] **Task 3.2: Implement Identity API integration**
   * Create service class `app/Services/IdentityLookupService.php`.
   * Implement `lookup(string $documentType, string $documentNumber): ?string` querying the external identity API via `Illuminate\Support\Facades\Http`.
   * Call lookup inside `app/Livewire/KioskMain.php` to auto-populate `$name` upon document input completion.

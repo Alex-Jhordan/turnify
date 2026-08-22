@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'identity_api' => [
+        'base_url' => env('IDENTITY_API_BASE_URL'),
+        'token'    => env('IDENTITY_API_TOKEN'),
+    ],
+    
 ];

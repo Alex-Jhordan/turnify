@@ -63,15 +63,32 @@
                             <button type="button" wire:click="removeDigit" class="h-14 rounded-lg bg-[#e9e4d8] text-sm font-black uppercase transition hover:bg-[#ded7c8] active:scale-95">Clear</button>
                         </div>
 
-                        <button type="button" wire:click="nextStep" class="mt-7 flex h-16 w-full items-center justify-center rounded-lg bg-[#17211d] text-base font-black text-[#fffdf8] transition hover:bg-[#293a32] active:scale-[0.99]">Continue <span class="ml-3 text-xl" aria-hidden="true">→</span></button>
+                        <button type="button" wire:click="nextStep" wire:loading.attr="disabled" class="mt-7 flex h-16 w-full items-center justify-center rounded-lg bg-[#17211d] text-base font-black text-[#fffdf8] transition hover:bg-[#293a32] active:scale-[0.99] disabled:opacity-50">
+                            <span wire:loading.remove wire:target="nextStep">Continue <span class="ml-3 text-xl" aria-hidden="true">→</span></span>
+                            <span wire:loading wire:target="nextStep">Verifying...</span>
+                        </button>
                     </div>
                 @elseif ($step === 2)
                     <div>
                         <p class="text-xs font-black uppercase tracking-[0.2em] text-[#b45f3c]">Step 2 of 3</p>
-                        <h2 class="mt-2 text-3xl font-black tracking-tight">What service do you need?</h2>
-                        <p class="mt-2 text-sm text-[#17211d]/60">Select an option to route you to the correct desk.</p>
+                        
+                        @if ($name_found)
+                            <div class="mt-2 rounded-lg bg-[#f4f1ea] p-4 border-2 border-[#17211d]/10">
+                                <p class="text-xs font-bold uppercase tracking-wider text-[#17211d]/60">Welcome</p>
+                                <h2 class="text-2xl font-black tracking-tight text-[#17211d]">{{ $name }}</h2>
+                            </div>
+                        @else
+                            <div class="mt-2">
+                                <label for="user-name" class="block text-xs font-black uppercase tracking-[0.18em] text-[#17211d]/55">Enter your full name</label>
+                                <input id="user-name" type="text" wire:model="name" class="mt-2 h-14 w-full rounded-lg border-2 border-[#17211d]/15 bg-[#f4f1ea] px-4 text-lg font-black outline-none transition focus:border-[#b45f3c]" placeholder="John Doe">
+                                @error('name') <p class="mt-1 text-sm font-bold text-[#b45f3c]">{{ $message }}</p> @enderror
+                            </div>
+                        @endif
 
-                        <div class="mt-7 grid gap-3 sm:grid-cols-2">
+                        <h3 class="mt-6 text-xl font-black tracking-tight">What service do you need?</h3>
+                        <p class="mt-1 text-sm text-[#17211d]/60">Select an option to route you to the correct desk.</p>
+
+                        <div class="mt-5 grid gap-3 sm:grid-cols-2">
                             @forelse ($categories as $category)
                                 <button type="button" wire:click="$set('category_id', {{ $category->id }})" class="min-h-24 rounded-lg border-2 p-4 text-left transition {{ $category_id === $category->id ? 'border-[#17211d] bg-[#f2c14e]' : 'border-[#17211d]/10 bg-[#f4f1ea] hover:border-[#17211d]/35' }}">
                                     <span class="text-xs font-black uppercase tracking-[0.18em] text-[#b45f3c]">{{ $category->prefix }}</span>
