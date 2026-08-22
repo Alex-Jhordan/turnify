@@ -83,9 +83,9 @@
   * Implement `lookup(string $documentType, string $documentNumber): ?string` querying the external identity API via `Illuminate\Support\Facades\Http`.
   * Call lookup inside `app/Livewire/KioskMain.php` to auto-populate `$name` upon document input completion.
 
-- [ ] **Task 3.3: Implement code generation & idempotency service**
+- [X] **Task 3.3: Implement code generation & idempotency service**
   * Create service class `app/Services/TicketIssuanceService.php`.
-  * Implement `generateCode(Category $category, bool $isPriority): string` generating formatted codes (`PREFIX-001` or `P-PREFIX-001`).
+  * Implement `generateCode(Category $category, bool $isPriority): string` generating formatted codes (`PREFIX-00001` or `P-PREFIX-00001`).
   * Implement `issueTicket(array $data): Ticket` wrapped in a `try-catch` block validating `idempotency_key` unique constraints.
 
 - [ ] **Task 3.4: Build confirmation view & thermal print output**

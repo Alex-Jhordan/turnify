@@ -4,7 +4,9 @@ namespace App\Livewire;
 
 use App\Models\Category;
 use App\Services\IdentityLookupService;
+use App\Services\TicketIssuanceService;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class KioskMain extends Component
@@ -93,6 +95,30 @@ class KioskMain extends Component
                 'category_id' => ['required', 'integer', 'exists:categories,id'],
             ]);
         }
+    }
+
+    #[On('kiosk-ready')]
+    public function submitTicket(TicketIssuanceService $service): void
+    {
+        $this->validate([
+            'document_type' => ['required', 'in:dni,passport,ce'],
+            'document_number' => ['required', 'digits_between:6,12'],
+            'name' => ['required', 'string', 'min:2', 'max:255'],
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
+            'is_priority' => ['required', 'boolean'],
+            'idempotency_key' => ['required', 'uuid'],
+        ]);
+
+        $ticket = $service->issueTicket([
+            'document_type' => $this->document_type,
+            'document_number' => $this->document_number,
+            'name' => $this->name,
+            'category_id' => $this->category_id,
+            'is_priority' => $this->is_priority,
+            'idempotency_key' => $this->idempotency_key,
+        ]);
+
+        $this->js("alert('Ticket generated: {$ticket->ticket_code}');");
     }
 
     public function render(): View
