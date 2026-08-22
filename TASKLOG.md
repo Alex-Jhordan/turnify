@@ -55,11 +55,11 @@
   * Configure table schema in `app/Filament/Resources/Modules/Tables/ModulesTable.php`: list module number, active status, assigned categories, and current logged-in user.
   * Ensure `app/Filament/Resources/Modules/ModuleResource.php` links `ModuleForm` and `ModulesTable`.
 
-- [ ] **Task 2.4: Create Filament resource: Users & Role Assignment**
-  * Execute `php artisan make:filament-resource User`.
-  * Configure form schema in `app/Filament/Resources/Users/Schemas/UserForm.php`: `name`, `email`, encrypted `password`, and `Select::make('roles')->relationship('roles', 'name')`.
-  * Configure table schema in `app/Filament/Resources/Users/Tables/UsersTable.php`: list users with role and `is_active` status.
-  * Ensure `app/Filament/Resources/Users/UserResource.php` links `UserForm` and `UsersTable`.
+- [X] **Task 2.4: Create Filament resource: Users & Role Assignment**
+  * Execute `php artisan make:filament-resource User --simple --generate`.
+  * Configure form schema in `app/Filament/Resources/Users/UserResource.php`: `name`, `email`, encrypted `password`, and `Select::make('roles')->relationship('roles', 'name')`.
+  * Configure table schema in `app/Filament/Resources/Users/UserResource.php`: list users with email, role and `is_active` ToggleColumn.
+  * Ensure `app/Filament/Resources/Users/UserResource.php` implement `form()` and `table()`.
 
 - [ ] **Task 2.5: Create Filament resource: Ticket Audit & Cancellation**
   * Execute `php artisan make:filament-resource Ticket`.
