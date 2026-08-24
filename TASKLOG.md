@@ -18,7 +18,7 @@
 - [X] **Task 1.3: Define database migration schemas**
   * Update `database/migrations/0001_01_01_000000_create_users_table.php` adding `is_active` (boolean, default: `true`) and the softDeletes().
   * Create `database/migrations/xxxx_xx_xx_create_categories_table.php` with: `id`, `name` (varchar 100), `prefix` (varchar 10), `is_active` (boolean, default: `true`), `timestamps`.
-  * Create `database/migrations/xxxx_xx_xx_create_modules_table.php` with: `id`, `module_number` (int, unique), `is_active` (boolean, default: `true`), `current_user_id` (foreignId, nullable, constrained `users`), `timestamps`.
+  * Create `database/migrations/xxxx_xx_xx_create_modules_table.php` with: `id`, `module_number` (int, unique), `is_active` (boolean, default: `true`), `current_user_id` (foreignId, nullable, unique, constrained `users`), `timestamps`.
   * Create `database/migrations/xxxx_xx_xx_create_category_module_table.php` (pivot) with: `module_id` (foreignId), `category_id` (foreignId).
   * Create `database/migrations/xxxx_xx_xx_create_tickets_table.php` with: `id`, `ticket_code` (varchar 20), `category_id` (foreignId), `module_id` (foreignId, nullable), `user_id` (foreignId, nullable), `document_type` (varchar 20, default `dni`), `document_number` (varchar 30), `name` (varchar 255), `is_priority` (boolean, default `false`), `status` (varchar 30, default `pending`), `call_count` (int, default 0), `called_at` (timestamp, nullable), `started_at` (timestamp, nullable), `ended_at` (timestamp, nullable), `cancelled_at` (timestamp, nullable), `idempotency_key` (varchar 64, unique, nullable), `timestamps`.
 

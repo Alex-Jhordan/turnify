@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('module_number')->unique();
             $table->boolean('is_active')->default(true);
-            $table->foreignId('current_user_id')->nullable()->constrained('users');
+            $table->foreignId('current_user_id')->nullable()->unique()->constrained('users');
             $table->timestamps();
         });
     }
