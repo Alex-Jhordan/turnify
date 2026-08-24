@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Enums\TicketStatus;
+use App\Events\TicketCalledEvent;
 use App\Models\Module;
 use App\Models\Ticket;
 use App\Services\TicketAssignmentService;
@@ -181,6 +182,15 @@ class AdvisorPanel extends Page
 
         if ($ticket) {
             $this->currentTicket = $ticket;
+
+            TicketCalledEvent::dispatch(
+                $ticket->id,
+                $ticket->code,
+                $this->module->module_number,
+                $ticket->category->name,
+                false
+            );
+
             Notification::make()
                 ->success()
                 ->title("Ticket {$ticket->code} called")
@@ -201,6 +211,14 @@ class AdvisorPanel extends Page
 
         $this->currentTicket->increment('call_count');
         $this->currentTicket->update(['called_at' => now()]);
+
+        TicketCalledEvent::dispatch(
+            $this->currentTicket->id,
+            $this->currentTicket->code,
+            $this->module->module_number,
+            $this->currentTicket->category->name,
+            true
+        );
 
         Notification::make()
             ->info()

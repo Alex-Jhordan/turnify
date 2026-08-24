@@ -127,7 +127,7 @@
   * Verify `.env` variables: `BROADCAST_CONNECTION=reverb`, `REVERB_SCHEME=http`, `REVERB_APP_ID`, `REVERB_APP_KEY`, `REVERB_APP_SECRET`, `REVERB_HOST="127.0.0.1"`, `REVERB_PORT=6001`.
   * Test WebSocket server using `php artisan reverb:start --port=6001`.
 
-- [ ] **Task 5.2: Create TicketCalledEvent**
+- [X] **Task 5.2: Create TicketCalledEvent**
   * Create `app/Events/TicketCalledEvent.php` implementing `ShouldBroadcastNow`.
   * Define public properties: `$ticketId`, `$ticketCode`, `$moduleNumber`, `$categoryName`, `$isRecall`.
   * Configure `broadcastOn()` pointing to `new Channel('displays-channel')`.
