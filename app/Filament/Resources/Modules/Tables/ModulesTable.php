@@ -23,7 +23,7 @@ class ModulesTable
                     ->badge()
                     ->separator(',')
                     ->placeholder('—'),
-                TextColumn::make('user.name')
+                TextColumn::make('currentUser.name')
                     ->label('Current user')
                     ->searchable()
                     ->sortable()
