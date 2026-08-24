@@ -112,8 +112,8 @@
   * Prevent race conditions in `selectModule()` and `leaveModule()` using `DB::transaction()`, pessimistic locking (`lockForUpdate()`), and `QueryException` handling.
   * Build conditional UI rendering in `advisor-panel.blade.php`: a module selection grid for unassigned advisors, and an active ticket management panel with lifecycle action buttons when a module is occupied.
 
-- [ ] **Task 4.3: Implement 30-minute timer & UI delay lock**
-  * Embed Alpine.js in `resources/views/livewire/advisor-panel.blade.php` managing a 30-minute countdown upon reaching `in_progress` state.
+- [X] **Task 4.3: Implement 30-minute timer & UI delay lock**
+  * Embed Alpine.js in `resources/views/filament/pages/advisor-panel.blade.php` managing a 30-minute countdown upon reaching `in_progress` state.
   * Apply dynamic Tailwind CSS v4.3 classes: Green (30:00-10:00), Yellow (09:59-03:00), Red (02:59-00:00).
   * Implement Alpine `x-data` state disabling the "Mark No-Show" (`no_show`) button for 20 seconds following a call or recall action.
 

@@ -100,6 +100,40 @@
                                     </x-filament::badge>
                                 @endif
                             </div>
+
+                            @if ($currentTicket->status === App\Enums\TicketStatus::InProgress)
+                                <div 
+                                    x-data="{
+                                        startedAt: {{ $currentTicket->started_at ? $currentTicket->started_at->timestamp * 1000 : 'Date.now()' }},
+                                        remainingSeconds: 1800,
+                                        timer: null,
+                                        formatTime() {
+                                            const mins = Math.floor(Math.abs(this.remainingSeconds) / 60).toString().padStart(2, '0');
+                                            const secs = (Math.abs(this.remainingSeconds) % 60).toString().padStart(2, '0');
+                                            return `${this.remainingSeconds < 0 ? '-' : ''}${mins}:${secs}`;
+                                        },
+                                        updateTimer() {
+                                            const elapsedSeconds = Math.floor((Date.now() - this.startedAt) / 1000);
+                                            this.remainingSeconds = 1800 - elapsedSeconds;
+                                        },
+                                        get timerClass() {
+                                            if (this.remainingSeconds >= 600) return 'text-emerald-600 dark:text-emerald-400 border-emerald-500/20 bg-emerald-50 dark:bg-emerald-500/10';
+                                            if (this.remainingSeconds >= 180) return 'text-amber-600 dark:text-amber-400 border-amber-500/20 bg-amber-50 dark:bg-amber-500/10';
+                                            return 'text-rose-600 dark:text-rose-400 border-rose-500/20 bg-rose-50 dark:bg-rose-500/10';
+                                        }
+                                    }"
+                                    x-init="
+                                        updateTimer();
+                                        timer = setInterval(() => updateTimer(), 1000);
+                                    "
+                                    x-destroy="clearInterval(timer)"
+                                    class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg border font-mono text-xl font-bold transition-colors duration-300"
+                                    :class="timerClass"
+                                >
+                                    <x-filament::icon icon="heroicon-m-clock" class="w-5 h-5" />
+                                    <span x-text="formatTime()"></span>
+                                </div>
+                            @endif
                         </div>
 
                         <div class="mt-6 border-t border-gray-100 dark:border-gray-800 pt-4 text-xs text-gray-500 dark:text-gray-400 grid grid-cols-3 gap-2 text-center">
@@ -136,7 +170,27 @@
                 @endif
             </x-filament::section>
 
-            <div class="flex items-center gap-3">
+            <div 
+                x-data="{
+                    calledAt: {{ ($currentTicket && $currentTicket->called_at) ? $currentTicket->called_at->timestamp * 1000 : 'null' }},
+                    lockRemaining: 0,
+                    lockTimer: null,
+                    updateLock() {
+                        if (!this.calledAt) {
+                            this.lockRemaining = 0;
+                            return;
+                        }
+                        const elapsed = Math.floor((Date.now() - this.calledAt) / 1000);
+                        this.lockRemaining = Math.max(0, 20 - elapsed);
+                    }
+                }"
+                x-init="
+                    updateLock();
+                    lockTimer = setInterval(() => updateLock(), 1000);
+                "
+                x-destroy="clearInterval(lockTimer)"
+                class="flex items-center gap-3"
+            >
                 @if (! $currentTicket)
                     <x-filament::button wire:click="callNext" icon="heroicon-m-phone-arrow-up-right" size="lg">
                         Call Next
@@ -151,8 +205,15 @@
                             Start Service
                         </x-filament::button>
 
-                        <x-filament::button wire:click="markNoShow" color="danger" icon="heroicon-m-x-circle">
-                            No Show
+                        <x-filament::button 
+                            wire:click="markNoShow" 
+                            color="danger" 
+                            icon="heroicon-m-x-circle"
+                            ::disabled="lockRemaining > 0"
+                            x-bind:class="{ 'opacity-50 cursor-not-allowed': lockRemaining > 0 }"
+                        >
+                            <span x-show="lockRemaining === 0">No Show</span>
+                            <span x-show="lockRemaining > 0" x-text="`No Show (${lockRemaining}s)`"></span>
                         </x-filament::button>
                     @elseif ($currentTicket->status === App\Enums\TicketStatus::InProgress)
                         <x-filament::button wire:click="completeAttention" color="info" icon="heroicon-m-check">
