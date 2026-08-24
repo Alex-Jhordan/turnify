@@ -122,7 +122,7 @@
 
 ## Phase 5: Real-Time WebSockets (Laravel Reverb) & Public Display (TV)
 
-- [ ] **Task 5.1: Install and configure Laravel Reverb**
+- [X] **Task 5.1: Install and configure Laravel Reverb**
   * Execute `php artisan install:broadcasting` and select Laravel Reverb.
   * Verify `.env` variables: `BROADCAST_CONNECTION=reverb`, `REVERB_SCHEME=http`, `REVERB_APP_ID`, `REVERB_APP_KEY`, `REVERB_APP_SECRET`, `REVERB_HOST="127.0.0.1"`, `REVERB_PORT=6001`.
   * Test WebSocket server using `php artisan reverb:start --port=6001`.
