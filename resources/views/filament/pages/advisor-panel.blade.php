@@ -140,7 +140,7 @@
                             <div>
                                 <span class="block text-gray-400">Status</span>
                                 <span class="uppercase font-semibold text-gray-700 dark:text-gray-200">
-                                    {{ $currentTicket->status->value ?? $currentTicket->status }}
+                                    {{ $currentTicket->status->getLabel() }}
                                 </span>
                             </div>
                             <div>

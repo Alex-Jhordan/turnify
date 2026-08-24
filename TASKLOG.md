@@ -14,6 +14,7 @@
   * Create `app/Enums/TicketStatus.php` with cases: `Pending = 'pending'`, `Calling = 'calling'`, `InProgress = 'in_progress'`, `Completed = 'completed'`, `NoShow = 'no_show'`, `Cancelled = 'cancelled'`.
   * Create `app/Enums/UserRole.php` with cases: `Administrator = 'administrator'`, `Advisor = 'advisor'`.
   * Create `app/Enums/DocumentType.php` with cases: `DNI = 'dni'`, `Passport = 'passport'`, `CE = 'ce'`.
+  * Implement Filament's `HasLabel` interface and `getLabel()` method across created Enums to provide formatted labels.
 
 - [X] **Task 1.3: Define database migration schemas**
   * Update `database/migrations/0001_01_01_000000_create_users_table.php` adding `is_active` (boolean, default: `true`) and the softDeletes().
