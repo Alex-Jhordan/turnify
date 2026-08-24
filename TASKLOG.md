@@ -105,10 +105,12 @@
     * Apply `->lockForUpdate()` on Eloquent query to prevent MySQL 8.4 race conditions.
     * Update ticket status to `calling`, assign `module_id`, `user_id`, set `called_at = now()` and `call_count = 1`.
 
-- [ ] **Task 4.2: Advisor Panel Livewire component**
-  * Execute `php artisan make:livewire AdvisorPanel`.
-  * Configure `app/Livewire/AdvisorPanel.php` handling actions: `callNext()`, `recall()`, `startAttention()`, `markNoShow()`, `completeAttention()`.
-  * Create view `resources/views/livewire/advisor-panel.blade.php` including toolbar, ticket summary, and active module indicator.
+- [X] **Task 4.2: Advisor Panel Filament Custom Page**
+  * Execute `php artisan make:filament-page AdvisorPanel` to generate `app/Filament/Pages/AdvisorPanel.php` and `resources/views/filament/pages/advisor-panel.blade.php`.
+  * Execute `php artisan make:filament-theme` to compile assets and ensure correct rendering of custom Tailwind/Filament classes in the Blade view.
+  * Implement stateful workflow actions in `AdvisorPanel.php`: `selectModule()`, `leaveModule()`, `callNext()`, `recall()`, `startAttention()`, `markNoShow()`, and `completeAttention()`.
+  * Prevent race conditions in `selectModule()` and `leaveModule()` using `DB::transaction()`, pessimistic locking (`lockForUpdate()`), and `QueryException` handling.
+  * Build conditional UI rendering in `advisor-panel.blade.php`: a module selection grid for unassigned advisors, and an active ticket management panel with lifecycle action buttons when a module is occupied.
 
 - [ ] **Task 4.3: Implement 30-minute timer & UI delay lock**
   * Embed Alpine.js in `resources/views/livewire/advisor-panel.blade.php` managing a 30-minute countdown upon reaching `in_progress` state.
