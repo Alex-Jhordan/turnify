@@ -133,7 +133,13 @@
   * Configure `broadcastOn()` pointing to `new Channel('displays-channel')`.
   * Dispatch event inside `callNext()` and `recall()` in `AdvisorPanel`.
 
-- [X] **Task 5.3: Create Display component & view**
+- [X] **Task 5.3: Create TicketStatusUpdatedEvent**
+  * Create `app/Events/TicketStatusUpdatedEvent.php` implementing `ShouldBroadcastNow`.
+  * Define public properties: `$ticketId`, `$status`.
+  * Configure `broadcastOn()` pointing to `new Channel('displays-channel')`.
+  * Dispatch event inside `startAttention()` and `markNoShow()` in `AdvisorPanel`.
+
+- [X] **Task 5.4: Create Display component & view**
   * Execute `php artisan livewire:layout` to generate the default application layout at `resources/views/layouts/app.blade.php`.
   * Execute `php artisan make:livewire pages::display` to create the single-file page component at `resources/views/pages/⚡display.blade.php`.
   * Build view `resources/views/pages/⚡display.blade.php` using Tailwind v4.3 CSS Grid split into a Main Area (70%) displaying the current ticket with the status `calling` and a Side Grid (30%) showing the history of the last 5 tickets with the status `calling` except for the one in the main area.
@@ -141,7 +147,7 @@
   * Register page route in `routes/web.php` using `Route::livewire('/display', 'pages::display')->name('display')`.
   * Configure environment variables in `.env` for Vite and Laravel Reverb (`VITE_REVERB_APP_KEY`, `VITE_REVERB_HOST`, `VITE_REVERB_PORT`, `VITE_REVERB_SCHEME`).
 
-- [ ] **Task 5.4: JavaScript queue & Text-to-Speech (TTS) integration**
+- [ ] **Task 5.5: JavaScript queue & Text-to-Speech (TTS) integration**
   * Create script `resources/js/display-queue.js`.
   * Implement JavaScript FIFO queue receiving WebSocket broadcasts.
   * Display incoming ticket in Main Area for 20 seconds, trigger `window.speechSynthesis` (`"Turno [Code], acérquese al Módulo [Number]"`), then shift ticket into Side Grid.
