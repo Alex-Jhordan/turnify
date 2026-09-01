@@ -161,8 +161,8 @@
   * Execute `composer require barryvdh/laravel-dompdf`.
 
 - [ ] **Task 6.2: Build Filament 5.x stats widgets**
-  * Create widget `app/Filament/Widgets/StatsOverview.php` rendering KPIs: Total Tickets, Completed Sessions, Avg Wait Time (`called_at - created_at`), Avg Session Duration (`ended_at - started_at`).
-  * Create widget `app/Filament/Widgets/TicketsPerCategoryChart.php` rendering ticket distribution per category.
+  * Execute `php artisan make:filament-widget StatsOverview --stats-overview` to create `app/Filament/Widgets/StatsOverview.php` rendering KPIs in full width at top (`$sort = 1`): Total Tickets, Completed Sessions, Avg Wait Time (`called_at - created_at`), and Avg Session Duration (`ended_at - started_at`) formatted in minutes.
+  * Execute `php artisan make:filament-widget TicketsPerCategoryChart --chart` to create `app/Filament/Widgets/TicketsPerCategoryChart.php` (`$sort = 2`) rendering doughnut distribution per category using `Category::withCount('tickets')` to include categories with 0 tickets.
 
 - [ ] **Task 6.3: Implement data export class**
   * Create `app/Exports/TicketsExport.php` implementing `FromQuery`, `WithHeadings`, `WithMapping`.
