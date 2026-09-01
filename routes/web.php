@@ -9,3 +9,5 @@ Route::get('/', function () {
 Route::get('/kiosk', function () {
     return view('kiosk');
 })->name('kiosk');
+
+Route::livewire('/display', 'pages::display')->name('display');

@@ -133,10 +133,13 @@
   * Configure `broadcastOn()` pointing to `new Channel('displays-channel')`.
   * Dispatch event inside `callNext()` and `recall()` in `AdvisorPanel`.
 
-- [ ] **Task 5.3: Create DisplayTv component & view**
-  * Execute `php artisan make:livewire DisplayTv`.
-  * Create view `resources/views/livewire/display-tv.blade.php` using Tailwind v4.3 CSS Grid split into Main Area (70%) and Side Grid (30%).
+- [X] **Task 5.3: Create Display component & view**
+  * Execute `php artisan livewire:layout` to generate the default application layout at `resources/views/layouts/app.blade.php`.
+  * Execute `php artisan make:livewire pages::display` to create the single-file page component at `resources/views/pages/⚡display.blade.php`.
+  * Build view `resources/views/pages/⚡display.blade.php` using Tailwind v4.3 CSS Grid split into a Main Area (70%) displaying the current ticket with the status `calling` and a Side Grid (30%) showing the history of the last 5 tickets with the status `calling` except for the one in the main area.
   * Configure Laravel Echo listening on `displays-channel` for `TicketCalledEvent`.
+  * Register page route in `routes/web.php` using `Route::livewire('/display', 'pages::display')->name('display')`.
+  * Configure environment variables in `.env` for Vite and Laravel Reverb (`VITE_REVERB_APP_KEY`, `VITE_REVERB_HOST`, `VITE_REVERB_PORT`, `VITE_REVERB_SCHEME`).
 
 - [ ] **Task 5.4: JavaScript queue & Text-to-Speech (TTS) integration**
   * Create script `resources/js/display-queue.js`.

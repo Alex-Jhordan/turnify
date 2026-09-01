@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Enums\TicketStatus;
 use App\Events\TicketCalledEvent;
+use App\Events\TicketStatusUpdatedEvent;
 use App\Models\Module;
 use App\Models\Ticket;
 use App\Services\TicketAssignmentService;
@@ -237,6 +238,11 @@ class AdvisorPanel extends Page
             'started_at' => now(),
         ]);
 
+        TicketStatusUpdatedEvent::dispatch(
+            $this->currentTicket->id,
+            TicketStatus::InProgress
+        );
+
         Notification::make()
             ->success()
             ->title('Service started')
@@ -253,6 +259,11 @@ class AdvisorPanel extends Page
             'status' => TicketStatus::NoShow,
             'cancelled_at' => now(),
         ]);
+
+        TicketStatusUpdatedEvent::dispatch(
+            $this->currentTicket->id,
+            TicketStatus::NoShow
+        );
 
         Notification::make()
             ->warning()
