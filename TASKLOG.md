@@ -25,7 +25,7 @@
 
 - [X] **Task 1.4: Configure Eloquent models, relationships & audit traits**
   * Update `app/Models/User.php` adding `LogsActivity` trait (`spatie/laravel-activitylog`), `SoftDeletes` trait, casting `is_active` to boolean, and defining `hasMany` with `Ticket` and `hasOne` with `Module` (`current_user_id`).
-  * Create `app/Models/Category.php` with `LogsActivity` trait and `belongsToMany` relationship with `Module` via `category_module`.
+  * Create `app/Models/Category.php` with `LogsActivity` trait, `belongsToMany` relationship with `Module` via `category_module`, and `hasMany` relationship with `Ticket`
   * Create `app/Models/Module.php` with `LogsActivity` trait and `belongsToMany` with `Category`, `belongsTo` with `User` (`current_user_id`), and `hasMany` with `Ticket`.
   * Create `app/Models/Ticket.php` with `LogsActivity` trait, casting `status` to `TicketStatus::class`, `document_type` to `DocumentType::class`, `is_priority` to boolean, and `belongsTo` relationships with `Category`, `Module`, and `User`.
 
