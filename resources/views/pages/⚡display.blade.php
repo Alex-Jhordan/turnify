@@ -79,6 +79,11 @@ new #[Title('Display | Turnify')] #[Layout('layouts::app')] class extends Compon
             'categoryName' => $event['categoryName'],
             'isRecall' => $event['isRecall'],
         ];
+
+        $this->dispatch('announce-current-ticket', 
+            ticketCode: $event['ticketCode'],
+            moduleNumber: $event['moduleNumber'],
+        );
     }
 
     public function onTicketStatusUpdated(array $event): void
@@ -100,7 +105,31 @@ new #[Title('Display | Turnify')] #[Layout('layouts::app')] class extends Compon
 };
 ?>
 
-<div class="min-h-screen w-screen overflow-hidden bg-[#f4f1ea] text-[#17211d] font-sans selection:bg-[#f2c14e] selection:text-[#17211d]">
+<div
+    x-data="{ audioEnabled: false }" 
+    x-on:click="
+        if (!audioEnabled) {
+            audioEnabled = true;
+            window.speechSynthesis?.speak(new SpeechSynthesisUtterance(''));
+        }
+    "
+    x-on:announce-current-ticket.window="
+        const data = $event.detail;
+        if (typeof window.playTicketAnnouncement === 'function') {
+            window.playTicketAnnouncement(data.ticketCode, data.moduleNumber);
+        }
+    "
+    class="min-h-screen w-screen overflow-hidden bg-[#f4f1ea] text-[#17211d] font-sans selection:bg-[#f2c14e] selection:text-[#17211d]">
+    <div 
+        x-show="!audioEnabled" 
+        x-transition 
+        class="fixed top-4 right-4 z-50 rounded-lg bg-[#b45f3c] px-4 py-3 text-white shadow-xl flex items-center gap-3 cursor-pointer"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+        </svg>
+        <span class="text-sm font-semibold">Haz clic aquí para activar el audio de la pantalla</span>
+    </div>
     <div class="flex min-h-screen flex-col px-5 py-5 sm:px-8 sm:py-7 lg:px-12 lg:py-8">
         <header class="mb-6 flex items-end justify-between border-b border-[#17211d]/15 pb-5 sm:mb-8">
             <div>

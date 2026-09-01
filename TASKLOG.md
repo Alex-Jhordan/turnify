@@ -147,10 +147,10 @@
   * Register page route in `routes/web.php` using `Route::livewire('/display', 'pages::display')->name('display')`.
   * Configure environment variables in `.env` for Vite and Laravel Reverb (`VITE_REVERB_APP_KEY`, `VITE_REVERB_HOST`, `VITE_REVERB_PORT`, `VITE_REVERB_SCHEME`).
 
-- [ ] **Task 5.5: JavaScript queue & Text-to-Speech (TTS) integration**
-  * Create script `resources/js/display-queue.js`.
-  * Implement JavaScript FIFO queue receiving WebSocket broadcasts.
-  * Display incoming ticket in Main Area for 20 seconds, trigger `window.speechSynthesis` (`"Turno [Code], acérquese al Módulo [Number]"`), then shift ticket into Side Grid.
+- [X] **Task 5.5: Text-to-Speech (TTS) integration for main displayed ticket**
+  * Create script `resources/js/display-tts.js` to handle `window.speechSynthesis` announcements.
+  * Import `display-tts.js` in `resources/js/app.js`.
+  * Dispatch `announce-current-ticket` event from Livewire in `onTicketCalled` to trigger immediate voice prompt (`"Turno [Code], acérquese al Módulo [Number]"`).
 
 ---
 
