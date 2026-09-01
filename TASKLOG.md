@@ -168,10 +168,10 @@
   * Execute `php artisan make:export TicketsExport --model=Ticket` to create `app/Exports/TicketsExport.php` implementing `FromQuery`, `WithHeadings`, and `WithMapping`.
   * Eager-load relations (`category`, `module`, `user`) returning `Illuminate\Database\Eloquent\Builder` and map columns: Ticket Code, Category, Module, Advisor, Document, Status, Issuance Time, Call Time, Start Time, End Time, and Total Session Duration (`ended_at - started_at`).
 
-- [ ] **Task 6.4: Reports page in Filament admin**
-  * Create custom page `app/Filament/Pages/ReportsPage.php`.
-  * Build form filters for date range, category selection, and module selection.
-  * Add action buttons to download filtered reports in `.xlsx` and `.pdf` formats.
+- [X] **Task 6.4: Reports page in Filament admin**
+  * Execute `php artisan make:filament-page Reports` creating `app/Filament/Pages/Reports.php` and view `resources/views/filament/pages/reports.blade.php`.
+  * Build Schema form filters for date range (`start_date`, `end_date`), category selection (`category_id`), and module selection (`module_id`).
+  * Create PDF template `resources/views/pdf/tickets-report.blade.php` and add action buttons using `getReportFileName()` (`{app_name}-tickets-report-{date}`) to download filtered reports in `.xlsx` and `.pdf` formats.
 
 ---
 
