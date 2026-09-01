@@ -164,9 +164,9 @@
   * Execute `php artisan make:filament-widget StatsOverview --stats-overview` to create `app/Filament/Widgets/StatsOverview.php` rendering KPIs in full width at top (`$sort = 1`): Total Tickets, Completed Sessions, Avg Wait Time (`called_at - created_at`), and Avg Session Duration (`ended_at - started_at`) formatted in minutes.
   * Execute `php artisan make:filament-widget TicketsPerCategoryChart --chart` and select `doughnut` type to create `app/Filament/Widgets/TicketsPerCategoryChart.php` (`$sort = 2`) rendering doughnut distribution per category using `Category::withCount('tickets')` to include categories with 0 tickets.
 
-- [ ] **Task 6.3: Implement data export class**
-  * Create `app/Exports/TicketsExport.php` implementing `FromQuery`, `WithHeadings`, `WithMapping`.
-  * Map columns: Ticket Code, Category, Module, Advisor, Document, Status, Issuance Time, Call Time, Start Time, End Time, Total Session Duration.
+- [X] **Task 6.3: Implement data export class**
+  * Execute `php artisan make:export TicketsExport --model=Ticket` to create `app/Exports/TicketsExport.php` implementing `FromQuery`, `WithHeadings`, and `WithMapping`.
+  * Eager-load relations (`category`, `module`, `user`) returning `Illuminate\Database\Eloquent\Builder` and map columns: Ticket Code, Category, Module, Advisor, Document, Status, Issuance Time, Call Time, Start Time, End Time, and Total Session Duration (`ended_at - started_at`).
 
 - [ ] **Task 6.4: Reports page in Filament admin**
   * Create custom page `app/Filament/Pages/ReportsPage.php`.
