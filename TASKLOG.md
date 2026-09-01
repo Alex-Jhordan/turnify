@@ -156,7 +156,7 @@
 
 ## Phase 6: Analytics Dashboard, Reports & Data Export
 
-- [ ] **Task 6.1: Install export dependencies**
+- [X] **Task 6.1: Install export dependencies**
   * Execute `composer require maatwebsite/excel`.
   * Execute `composer require barryvdh/laravel-dompdf`.
 
