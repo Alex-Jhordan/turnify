@@ -150,7 +150,7 @@
 - [X] **Task 5.5: Text-to-Speech (TTS) integration for main displayed ticket**
   * Create script `resources/js/display-tts.js` to handle `window.speechSynthesis` announcements.
   * Import `display-tts.js` in `resources/js/app.js`.
-  * Dispatch `announce-current-ticket` event from Livewire in `onTicketCalled` to trigger immediate voice prompt (`"Turno [Code], acérquese al Módulo [Number]"`).
+  * Dispatch `announce-current-ticket` event from Livewire in `onTicketCalled` in `resources/views/pages/⚡display.blade.php` to trigger immediate voice prompt (`"Turno [Code], acérquese al Módulo [Number]"`).
 
 ---
 
